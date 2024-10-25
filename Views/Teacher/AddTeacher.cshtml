@@ -1,0 +1,129 @@
+﻿@model Developer_Task.ViewModel.TeacherViewModel
+
+<h1>Add Teacher</h1>
+<form method="post" enctype="multipart/form-data" id="teacherForm">
+    <div class="row">
+        <div class="col-12 border-bottom"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-8">
+            <div class="form-group row p-2 m-2">
+                <div class="col-4">
+                    <label asp-for="Teacher.Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Teacher.Name" class="form-control" />
+                    <span asp-validation-for="Teacher.Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row p-2 m-2">
+                <div class="col-4">
+                    <label asp-for="Teacher.Age"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Teacher.Age" class="form-control" />
+                    <span asp-validation-for="Teacher.Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row p-2 m-2">
+                <div class="col-4">
+                    <label asp-for="Teacher.ImageUrl"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Teacher.ImageUrl" type="file" id="UploadBox" name="files" multiple class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row p-2 m-2">
+                <div class="col-4">
+                    <label asp-for="Teacher.Gender"></label>
+                </div>
+                <div class="col-8">
+                    <div class="form-check">
+                        <input asp-for="Teacher.Gender" class="form-check-input" type="radio" value="Male" id="genderMale" />
+                        <label class="form-check-label" for="genderMale">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Teacher.Gender" class="form-check-input" type="radio" value="Female" id="genderFemale" />
+                        <label class="form-check-label" for="genderFemale">Female</label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Teacher.Gender" class="form-check-input" type="radio" value="Other" id="genderOther" />
+                        <label class="form-check-label" for="genderOther">Other</label>
+                    </div>
+                    <span asp-validation-for="Teacher.Gender" class="text-danger"></span>
+                </div>
+               
+            </div>
+            <div class="form-group row p-2 m-2">
+                <div class="col-4">
+                    <label asp-for="SelectedClassIds">Classes</label>
+                </div>
+                <div class="col-8">
+                    @foreach (var studentClass in Model.AvailableClasses)
+                    {
+                        <div class="form-check">
+                            <input  type="checkbox" class="form-check-input"
+                                   name="SelectedClassIds"
+                                   value="@studentClass.Id"
+                                   id="class_@studentClass.Id"
+                                   required
+                            @(Model.SelectedClassIds != null && Model.SelectedClassIds.Contains(studentClass.Id) ? "checked" : "") />
+                            <label class="form-check-label" for="class_@studentClass.Id">@studentClass.Name</label>
+                        </div>
+                    }
+                    <span asp-validation-for="SelectedClassIds" class="text-danger"></span>
+                </div>
+               
+            </div>
+
+            <div class="form-group row p-2 m-2">
+                <div class="col-4">
+                    <label asp-for="SelectedSubjectIds">Subjects</label>
+                </div>
+                <div class="col-8">
+                    @foreach (var studentSubject in Model.AvailableSubjects)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input"
+                            name="SelectedSubjectIds"
+                            value="@studentSubject.Id"
+                            id="subject_@studentSubject.Id"
+                            required
+                            @(Model.SelectedSubjectIds.Contains(studentSubject.Id) ? "checked" : "") />
+                            <label class="form-check-label" for="subject_@studentSubject.Id">@($"{studentSubject.Name} ({studentSubject.Language.Name})")</label>
+                        </div>
+                    }
+                    <span asp-validation-for="SelectedSubjectIds" class="text-danger"></span>
+                </div>
+             
+            </div>
+            <br />
+
+            <div class="form-group">
+                ﻿<div class="row">
+                    <div class="col-8 offset-4">
+                        <div class="d-flex" style="gap:15px; padding-left:5px;">
+                            <button type="button"
+                                    class="btn btn-info form-control"
+                                    onclick="AlertMessage('@Url.Action("AddTeacher", "Teacher")','teacherForm','@Url.Action("Index", "Teacher")')">
+                                Create
+                            </button>
+                            <a asp-action="Index" class="btn btn-success form-control">Back To List</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+
+
+@section scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/AlertMessage.js"></script>
+    
+
+}

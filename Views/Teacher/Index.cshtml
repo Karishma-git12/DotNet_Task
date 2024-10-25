@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Developer_Task.ViewModel.TeacherViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center text-primary">List Of Teachers & Their Subjects</h1>
+
+<div class="d-flex justify-content-end mb-3">
+    <a asp-action="AddTeacher" class="btn btn-info">
+        <i class="fas fa-plus"></i>&nbsp;Add Teacher
+    </a>
+</div>
+
+
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Teacher Name</th>
+            <th>Class</th>
+            <th>Subject</th>
+        
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var teacherVM in Model)
+        {
+            <tr>
+                <td>@teacherVM.Teacher.Name</td>
+                <td>@teacherVM.ClassNames</td>
+                <td>@teacherVM.SubjectNames</td>
+            </tr>
+        }
+    </tbody>
+</table>
